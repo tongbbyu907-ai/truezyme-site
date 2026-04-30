@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductGallery from "@/components/ProductGallery";
 import StickyBuyBar from "@/components/StickyBuyBar";
+import CountUp from "@/components/CountUp";
 import { createClient } from "@/lib/supabase/server";
 import { getNavBrands } from "@/lib/nav";
 import type { Brand, Product } from "@/types/database";
@@ -229,7 +230,7 @@ function SK2Style({
           <div className="md:col-span-6 text-center md:text-left">
             <p className="eyebrow text-primary mb-6">PHYTOGENICA™ MAX</p>
             <p className="num-xl text-primary text-[160px] md:text-[280px] leading-[0.85] mb-3">
-              {rich.point1.pct}
+              <CountUp value={rich.point1.pct} duration={1800} />
             </p>
             <p className="text-xs uppercase tracking-[.3em] text-mute">Maximum Concentration</p>
           </div>
@@ -361,7 +362,9 @@ function SK2Style({
           <div className={`grid grid-cols-1 md:grid-cols-${Math.min(rich.test.metrics.length, 4)} gap-y-16 md:gap-x-8 max-w-5xl mx-auto`}>
             {rich.test.metrics.map((m, i) => (
               <div key={i} className="text-center px-4">
-                <p className="num-xl text-primary text-7xl md:text-8xl mb-5 leading-none">{m.value}</p>
+                <p className="num-xl text-primary text-7xl md:text-8xl mb-5 leading-none">
+                  <CountUp value={m.value} duration={1500} />
+                </p>
                 <span className="block w-8 h-px bg-primary/40 mx-auto mb-5" />
                 <p className="text-sm font-medium">{m.label}</p>
               </div>
