@@ -51,7 +51,8 @@ export default async function ProductDetail({ params }: { params: Promise<{ id: 
   const p = product as Product;
   const { data: brand } = await sb.from("brands").select("*").eq("id", p.brand_id).single();
   const b = brand as Brand;
-  const rich = TRUEZYME_PRODUCTS[p.slug];
+  // DB의 detail_data를 우선 사용, 없으면 코드의 fallback (TRUEZYME_PRODUCTS)
+  const rich = ((p.detail_data as ProductRich | null) ?? TRUEZYME_PRODUCTS[p.slug]) || null;
 
   const otherTruezyme = ALL_TRUEZYME_PRODUCTS.filter(x => x.slug !== p.slug);
   const { data: otherProducts } = await sb

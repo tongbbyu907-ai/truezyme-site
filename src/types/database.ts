@@ -42,6 +42,7 @@ export type Product = {
   is_published: boolean;
   display_order: number;
   external_url: string | null;
+  detail_data: unknown | null;
   created_at: string;
   updated_at: string;
 };
