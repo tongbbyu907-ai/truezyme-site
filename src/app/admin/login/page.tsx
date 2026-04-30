@@ -41,9 +41,9 @@ export default function AdminLoginPage() {
         <Image src="/logo.png" alt="Truezyme" width={140} height={36} className="h-7 w-auto mx-auto mb-8" />
         <h1 className="font-serif text-2xl text-center mb-8">관리자 로그인</h1>
 
-        <label className="block text-xs uppercase tracking-[.15em] mb-2">이메일</label>
+        <label className="block text-xs uppercase tracking-[.15em] mb-2">아이디</label>
         <input
-          type="email"
+          type="text"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
