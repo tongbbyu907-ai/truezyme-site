@@ -120,8 +120,7 @@ create trigger trg_products_updated before update on products for each row execu
 -- 시드 데이터 (트루자임 + 바당쉬)
 -- ============================================================
 insert into brands (slug, name_ko, name_en, concept, color_primary, display_order) values
-  ('truezyme', '트루자임', 'Truezyme',  'Personal Care · 럭셔리 스킨케어 · 피토제니카 90%+', '#2A5F58', 1),
-  ('badangshi','바당쉬',   'Badangshi', 'Pure & Premium Marine Skincare from Nature',          '#3E6D75', 2)
+  ('truezyme', '트루자임', 'Truezyme',  'Personal Care · 럭셔리 스킨케어 · 피토제니카 90%+', '#2A5F58', 1)
 on conflict (slug) do nothing;
 
 -- 트루자임 product_types
@@ -140,17 +139,4 @@ from b, (values
 ) as t(slug, ko, en, ord)
 on conflict do nothing;
 
--- 바당쉬 product_types
-with b as (select id from brands where slug = 'badangshi')
-insert into product_types (brand_id, slug, name_ko, name_en, display_order)
-select b.id, t.slug, t.ko, t.en, t.ord
-from b, (values
-  ('toner',   '토너',     'Toner',          1),
-  ('serum',   '세럼',     'Serum',          2),
-  ('essence', '에센스',   'Essence',        3),
-  ('cream',   '크림',     'Moisturizer',    4),
-  ('vitc',    '비타민C',  'Vitamin C Cream',5),
-  ('sun',     '선크림',   'Sun Care',       6),
-  ('peeling', '각질제거', 'Peeling',        7)
-) as t(slug, ko, en, ord)
-on conflict do nothing;
+-- (바당쉬는 별도 사이트로 분리 예정 — 시드에서 제외)

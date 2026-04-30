@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { getNavBrands } from "@/lib/nav";
+import { IconPatent, IconConcentration, IconLeaf, IconMedical } from "@/components/icons";
 
 export const revalidate = 60;
 
@@ -125,10 +126,10 @@ export default async function HomePage() {
             <h2 className="display text-[clamp(36px,4.5vw,56px)]">기술이 만든 차이.</h2>
           </div>
           <div className="grid md:grid-cols-4 gap-12 max-w-6xl mx-auto">
-            <Stat n="K · US" t="독자 기술력" b="한국·미국 특허 발효 공법" />
-            <Stat n="90%+" t="고함량 원액" b="제품당 발효 원액 최대 90% 이상" />
-            <Stat n="EWG" t="Green 등급" b="전 성분 EWG Green, 무 석유계" />
-            <Stat n="MD" t="전문가 자문" b="한·양·약·대체의 자문단 참여" />
+            <Stat Icon={IconPatent} n="K · US" t="독자 기술력" b="한국·미국 특허 발효 공법" />
+            <Stat Icon={IconConcentration} n="90%+" t="고함량 원액" b="제품당 발효 원액 최대 90% 이상" />
+            <Stat Icon={IconLeaf} n="EWG" t="Green 등급" b="전 성분 EWG Green, 무 석유계" />
+            <Stat Icon={IconMedical} n="MD" t="전문가 자문" b="한·양·약·대체의 자문단 참여" />
           </div>
         </div>
       </section>
@@ -193,9 +194,17 @@ function Bullet({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Stat({ n, t, b }: { n: string; t: string; b: string }) {
+function Stat({
+  n, t, b, Icon,
+}: {
+  n: string; t: string; b: string;
+  Icon: (p: { size?: number; className?: string }) => React.JSX.Element;
+}) {
   return (
     <div className="text-center md:text-left border-t-2 border-primary pt-6">
+      <span className="inline-flex text-primary-dark mb-5">
+        <Icon size={48} />
+      </span>
       <p className="num-xl text-primary text-3xl md:text-4xl mb-3">{n}</p>
       <h3 className="font-medium mb-2">{t}</h3>
       <p className="text-sm text-mute leading-relaxed">{b}</p>
