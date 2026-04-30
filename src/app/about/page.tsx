@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getNavBrands } from "@/lib/nav";
 import {
-  IconLoop, IconEcosystem, IconCrack, IconSprout, IconBalance, IconCare,
   IconPatent, IconConcentration, IconLeaf, IconMedical,
   IconFace, IconBarrier, IconScalp, IconBaby,
 } from "@/components/icons";
@@ -30,31 +29,31 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* 6단 내러티브 */}
+      {/* 6단 내러티브 — 큰 번호 + 가는 라인 (editorial) */}
       <section className="section bg-sage-100">
         <div className="container-x">
-          <div className="grid md:grid-cols-2 gap-x-20 gap-y-24">
-            <Step n="01" Icon={IconLoop} tag="문제 제기" title="진정은 반복되지만, 회복은 돌아오지 않습니다.">
+          <div className="grid md:grid-cols-2 gap-x-24 gap-y-20 max-w-6xl mx-auto">
+            <Step n="01" tag="문제 제기" title="진정은 반복되지만, 회복은 돌아오지 않습니다.">
               그동안 피부는 관리의 대상이었습니다. 우리는 보습하고, 진정시키고, 덮어주고, 차단해왔습니다.
               하지만 같은 문제는 다음 계절에 다시 돌아옵니다.
             </Step>
-            <Step n="02" Icon={IconEcosystem} tag="피부 재정의" title="피부는 하나의 에코시스템입니다.">
+            <Step n="02" tag="피부 재정의" title="피부는 하나의 에코시스템입니다.">
               장벽 · 수분 · 면역 · 미생물의 균형이 필요한 살아 있는 시스템.
               피부의 결과는 표면이 아니라 환경에서 시작됩니다.
             </Step>
-            <Step n="03" Icon={IconCrack} tag="기존 방식의 한계" title="증상은 완화되지만, 환경은 무너진 채입니다.">
+            <Step n="03" tag="기존 방식의 한계" title="증상은 완화되지만, 환경은 무너진 채입니다.">
               관리만으로는 무너진 피부의 균형을 되돌릴 수 없습니다.
               유효 성분을 더하는 것만으로는 부족합니다.
             </Step>
-            <Step n="04" Icon={IconSprout} tag="새로운 관점" title="피부는 스스로 회복할 수 있습니다.">
+            <Step n="04" tag="새로운 관점" title="피부는 스스로 회복할 수 있습니다.">
               단, 균형 잡힌 환경이 갖춰졌을 때.
               우리의 역할은 더해주는 것이 아니라, <span className="text-primary font-medium">바로 세우는 것</span>입니다.
             </Step>
-            <Step n="05" Icon={IconBalance} tag="트루자임의 역할" title="장벽 복원 · 수분 유지력 강화 · 생태계 균형 안정화.">
+            <Step n="05" tag="트루자임의 역할" title="장벽 복원 · 수분 유지력 강화 · 생태계 균형 안정화.">
               한·미 특허 발효 공법으로 추출한 PhytoGenica™가
               피부 미세 환경에 반응하며, 자생 환경을 설계합니다.
             </Step>
-            <Step n="06" Icon={IconCare} tag="브랜드 약속" title="우리는 피부를 관리하지 않습니다. 환경을 만듭니다.">
+            <Step n="06" tag="브랜드 약속" title="우리는 피부를 관리하지 않습니다. 환경을 만듭니다.">
               자극하지 않고, 덮지 않고, 억지로 바꾸지 않습니다.
               피부가 본래의 힘을 되찾도록 돕습니다.
             </Step>
@@ -126,25 +125,24 @@ export default async function AboutPage() {
 }
 
 function Step({
-  n, tag, title, Icon, children,
+  n, tag, title, children,
 }: {
   n: string; tag: string; title: string;
-  Icon: (p: { size?: number; className?: string }) => React.JSX.Element;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="flex items-start gap-6 mb-7">
-        <span className="text-primary-dark shrink-0">
-          <Icon size={56} />
+    <div className="group">
+      <div className="flex items-baseline gap-5 mb-6">
+        <span className="num-xl text-primary-dark text-7xl md:text-[88px] leading-none tracking-[-0.05em]">
+          {n}
         </span>
-        <div>
-          <p className="num-xl text-primary-dark text-3xl leading-none">{n}</p>
-          <p className="eyebrow text-primary mt-2">{tag}</p>
+        <div className="flex-1 pt-3">
+          <span className="block w-full h-px bg-primary/30 mb-3 group-hover:bg-primary transition-colors duration-500" />
+          <p className="eyebrow text-primary">{tag}</p>
         </div>
       </div>
-      <h3 className="display text-2xl md:text-3xl leading-tight mb-5 text-[#1F3A35]">{title}</h3>
-      <p className="text-[#1F3A35]/80 leading-[1.95] text-[15px]">{children}</p>
+      <h3 className="display text-xl md:text-2xl leading-[1.35] mb-5 text-[#1F3A35]">{title}</h3>
+      <p className="text-[#1F3A35]/75 leading-[1.95] text-[15px]">{children}</p>
     </div>
   );
 }
