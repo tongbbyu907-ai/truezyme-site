@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/server";
 import { createProduct, updateProduct, deleteProduct } from "../actions";
+import DetailDataForm from "@/components/admin/DetailDataForm";
 import type { Brand, Product, ProductType } from "@/types/database";
 
 export const dynamic = "force-dynamic";
@@ -99,7 +100,7 @@ function ProductForm({
       <F label="용량" name="volume" placeholder="300ml" defaultValue={product?.volume ?? ""} />
       <F label="대표 이미지 URL" name="main_image" defaultValue={product?.main_image ?? ""} wide />
       <F label="구매 링크 (스마트스토어)" name="external_url" defaultValue={product?.external_url ?? ""} placeholder="https://smartstore.naver.com/..." wide />
-      <DetailDataField defaultValue={product?.detail_data} />
+      <DetailDataForm initial={product?.detail_data} />
       <TA label="상세 설명" name="description" defaultValue={product?.description ?? ""} />
       <TA label="사용법" name="usage" defaultValue={product?.usage ?? ""} />
       <TA label="전성분" name="ingredients" defaultValue={product?.ingredients ?? ""} />
@@ -156,30 +157,3 @@ function TA({ label, name, defaultValue }: { label: string; name: string; defaul
   );
 }
 
-function DetailDataField({ defaultValue }: { defaultValue?: unknown }) {
-  const formatted = defaultValue ? JSON.stringify(defaultValue, null, 2) : "";
-  return (
-    <div className="col-span-2 mt-3">
-      <details className="border border-line">
-        <summary className="cursor-pointer px-4 py-3 bg-sage-50 text-sm font-medium flex items-center justify-between">
-          <span>상세 페이지 콘텐츠 (JSON)</span>
-          <span className="text-xs text-mute">Phase 1 · 추후 폼으로 전환</span>
-        </summary>
-        <div className="p-4 space-y-3">
-          <p className="text-xs text-mute leading-relaxed">
-            제품 상세 페이지의 모든 섹션(Hero / Stats / 4 POINT / 원료 / 안전성 등)을 JSON으로 직접 편집합니다.<br/>
-            비워두면 코드에 정의된 기본값(트루자임 라인 한정) 사용. JSON 형식 오류 시 저장 실패합니다.
-          </p>
-          <textarea
-            name="detail_data"
-            rows={20}
-            defaultValue={formatted}
-            placeholder='{"productName":["..."], "smallCopy":"...", ...}'
-            className="w-full border border-line px-3 py-2 text-xs font-mono focus:outline-none focus:border-primary"
-            style={{ fontFamily: "ui-monospace, 'SF Mono', Menlo, Consolas, monospace" }}
-          />
-        </div>
-      </details>
-    </div>
-  );
-}
