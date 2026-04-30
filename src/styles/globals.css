@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-white text-ink antialiased;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  /* 이탈릭 전부 제거 — 통일된 산세리프 시스템 */
+  i, em, .italic { font-style: normal; }
+
+  ::selection { background: #2A5F58; color: #fff; }
+
+  /* 한국어 타이포 가독성 */
+  h1, h2, h3, h4 { word-break: keep-all; }
+}
+
+@layer components {
+  .container-x { @apply mx-auto max-w-container px-6 md:px-10; }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[.2em] transition-all duration-300 cursor-pointer;
+  }
+  .btn-primary { @apply btn bg-primary text-white hover:bg-primary-dark; }
+  .btn-light   { @apply btn bg-white text-ink hover:bg-ink hover:text-white; }
+  .btn-ghost   { @apply btn bg-transparent text-white border border-white/70 hover:bg-white hover:text-ink; }
+  .btn-dark    { @apply btn bg-ink text-white hover:bg-primary; }
+  .btn-outline { @apply btn bg-transparent border border-primary text-primary hover:bg-primary hover:text-white; }
+
+  .section { @apply py-24 md:py-32; }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase;
+    letter-spacing: .3em;
+  }
+
+  /* ─── DISPLAY: 가벼운 무게 + 명확한 위계 ─── */
+  .display {
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .display-bold {
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+  .display-light {
+    font-weight: 200;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .num-xl {
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-feature-settings: "tnum";
+  }
+  .num-bold {
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-feature-settings: "tnum";
+  }
+
+  .hashtag {
+    @apply inline-block text-[12px] tracking-wide text-primary mr-3;
+  }
+
+  /* ─── 사진 위 텍스트 가독성 ─── */
+  .on-photo {
+    text-shadow: 0 2px 24px rgba(0,0,0,.35), 0 1px 3px rgba(0,0,0,.25);
+  }
+
+  .pill {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full border text-[11px] font-medium uppercase tracking-[.25em];
+  }
+
+  /* ─── 가는 라인 강조 ─── */
+  .rule { @apply block w-12 h-px bg-current; }
+}
