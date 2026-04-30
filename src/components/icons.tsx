@@ -148,3 +148,142 @@ export const IconBaby = ({ size = 32, className }: IconProps) => (
     <circle cx="16" cy="11" r="4" />
   </svg>
 );
+
+// ─── 제품 상세 — 약속 / 메커니즘 / 기술 ────────────
+
+// 장벽 강화 — 방패
+export const IconShield = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M16 4 6 8v8c0 6 4 10 10 12 6-2 10-6 10-12V8L16 4Z" />
+  </svg>
+);
+
+// 보습 / 수분 — 물방울
+export const IconDrop = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M16 4c-4 6-9 11-9 16a9 9 0 0 0 18 0c0-5-5-10-9-16Z" />
+    <path d="M11 19a4 4 0 0 0 4 4" />
+  </svg>
+);
+
+// 흡수 — 안쪽으로 향하는 화살표
+export const IconAbsorb = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="16" cy="16" r="6" />
+    <path d="M5 5l5 5M27 5l-5 5M5 27l5-5M27 27l-5-5" />
+    <path d="M10 10l-3-1 1 3M22 10l3-1-1 3M10 22l-3 1 1-3M22 22l3 1-1-3" />
+  </svg>
+);
+
+// 환경 / 원자 — 궤도
+export const IconAtom = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="16" cy="16" r="2" />
+    <ellipse cx="16" cy="16" rx="11" ry="4" />
+    <ellipse cx="16" cy="16" rx="11" ry="4" transform="rotate(60 16 16)" />
+    <ellipse cx="16" cy="16" rx="11" ry="4" transform="rotate(120 16 16)" />
+  </svg>
+);
+
+// 발효 — 플라스크
+export const IconFlask = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M11 4h10" />
+    <path d="M13 4v9l-6 11a3 3 0 0 0 3 4h12a3 3 0 0 0 3-4l-6-11V4" />
+    <path d="M9 19h14" />
+    <circle cx="14" cy="22" r="0.5" />
+    <circle cx="18" cy="24" r="0.5" />
+  </svg>
+);
+
+// 나노 입자 — 점 무리
+export const IconParticles = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="10" cy="10" r="2" />
+    <circle cx="22" cy="10" r="1.5" />
+    <circle cx="16" cy="16" r="1" />
+    <circle cx="9" cy="20" r="1.5" />
+    <circle cx="22" cy="22" r="2" />
+    <circle cx="20" cy="6" r="1" />
+    <circle cx="6" cy="16" r="1" />
+    <circle cx="26" cy="16" r="1" />
+    <circle cx="14" cy="24" r="1" />
+  </svg>
+);
+
+// 진정 — 잔잔한 물결
+export const IconCalm = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M5 12c3 0 3 2 6 2s3-2 6-2 3 2 6 2 3-2 4-2" />
+    <path d="M5 18c3 0 3 2 6 2s3-2 6-2 3 2 6 2 3-2 4-2" />
+    <path d="M5 24c3 0 3 1 6 1s3-1 6-1 3 1 6 1" />
+  </svg>
+);
+
+// 미생물 — 박테리아 셰이프
+export const IconMicrobe = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <ellipse cx="16" cy="16" rx="8" ry="6" />
+    <path d="M8 16h-3M27 16h-3M16 8V5M16 27v-3" />
+    <circle cx="13" cy="14" r="0.5" />
+    <circle cx="19" cy="14" r="0.5" />
+    <circle cx="14" cy="18" r="0.5" />
+    <circle cx="19" cy="18" r="0.5" />
+  </svg>
+);
+
+// 아미노산 / 분자
+export const IconMolecule = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="9" cy="11" r="2.5" />
+    <circle cx="23" cy="11" r="2.5" />
+    <circle cx="9" cy="22" r="2.5" />
+    <circle cx="23" cy="22" r="2.5" />
+    <circle cx="16" cy="16" r="2.5" />
+    <path d="M11 12l3 3M21 12l-3 3M11 21l3-3M21 21l-3-3" />
+  </svg>
+);
+
+// 핵심 / 별
+export const IconStar = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M16 4l3.5 8 8.5.8-6.5 5.7 2 8.5L16 22l-7.5 5 2-8.5L4 12.8l8.5-.8L16 4Z" />
+  </svg>
+);
+
+// 한방 — 약초/잎 두 장
+export const IconHerbs = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M16 28V12" />
+    <path d="M16 18c-4 0-8-3-9-7 5-1 9 2 9 7Z" />
+    <path d="M16 14c4-1 8-4 9-8-5-1-9 3-9 8Z" />
+    <path d="M16 22c-3 0-6-2-7-5 4-1 7 1 7 5Z" />
+  </svg>
+);
+
+// 자연 유래 — 손에 잎
+export const IconNature = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <path d="M5 22c5-2 9-2 13 0M5 22v-2M5 22l-1 4" />
+    <path d="M22 16c4-2 6-7 5-12-5-1-10 2-12 6" />
+    <path d="M16 16l8-8" />
+  </svg>
+);
+
+// 무첨가 — X / 금지
+export const IconNoChem = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="16" cy="16" r="11" />
+    <path d="M9 9l14 14" />
+  </svg>
+);
+
+// 거품 / 계면활성제
+export const IconBubble = ({ size = 32, className }: IconProps) => (
+  <svg {...baseProps(size, className)}>
+    <circle cx="11" cy="20" r="6" />
+    <circle cx="21" cy="14" r="4" />
+    <circle cx="22" cy="22" r="3" />
+    <circle cx="9" cy="11" r="2" />
+  </svg>
+);

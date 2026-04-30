@@ -8,6 +8,34 @@ import { createClient } from "@/lib/supabase/server";
 import { getNavBrands } from "@/lib/nav";
 import type { Brand, Product } from "@/types/database";
 import { TRUEZYME_PRODUCTS, SHARED_NARRATIVE, ALL_TRUEZYME_PRODUCTS, type ProductRich } from "@/data/truezyme-products";
+import {
+  IconShield, IconDrop, IconEcosystem, IconAbsorb, IconAtom, IconBalance,
+  IconFlask, IconParticles, IconCalm, IconScalp, IconMicrobe, IconMolecule,
+  IconStar, IconLeaf, IconHerbs, IconPatent, IconNature, IconNoChem, IconBubble,
+} from "@/components/icons";
+
+type IconCmp = (p: { size?: number; className?: string }) => React.JSX.Element;
+
+// 3 약속
+const PROMISE_ICONS: IconCmp[] = [IconShield, IconDrop, IconEcosystem];
+
+// PhytoGenica 3 메커니즘
+const PHYTO_ICONS: IconCmp[] = [IconAbsorb, IconAtom, IconBalance];
+
+// 발효 기술 3축
+const FERM_ICONS: IconCmp[] = [IconFlask, IconParticles, IconCalm];
+
+// 6 핵심
+const CORE_ICONS: IconCmp[] = [IconScalp, IconShield, IconMicrobe, IconCalm, IconMolecule, IconAbsorb];
+
+// 안전성 배지 키워드 매칭
+function safetyIconFor(badge: string): IconCmp {
+  if (badge.includes("EWG")) return IconLeaf;
+  if (badge.includes("계면활성제")) return IconBubble;
+  if (badge.includes("자연 유래")) return IconNature;
+  if (badge.includes("무첨가")) return IconNoChem;
+  return IconShield;
+}
 
 export const revalidate = 60;
 
@@ -149,12 +177,16 @@ function SK2Style({
             <span className="text-primary">스스로 살아날 환경</span>을 만듭니다.
           </p>
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-10 border-t border-line">
-            {SHARED_NARRATIVE.threePromises.map((t, i) => (
-              <div key={i}>
-                <p className="text-xs tracking-[.2em] uppercase text-mute mb-2">0{i + 1}</p>
-                <p className="text-sm font-medium leading-snug">{t}</p>
-              </div>
-            ))}
+            {SHARED_NARRATIVE.threePromises.map((t, i) => {
+              const Icon = PROMISE_ICONS[i];
+              return (
+                <div key={i}>
+                  <span className="inline-flex text-primary-dark mb-4"><Icon size={36} /></span>
+                  <p className="text-xs tracking-[.2em] uppercase text-mute mb-2">0{i + 1}</p>
+                  <p className="text-sm font-medium leading-snug">{t}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -173,15 +205,19 @@ function SK2Style({
               </p>
             </div>
             <div className="md:col-span-6 grid grid-cols-1 gap-px bg-white/10">
-              {SHARED_NARRATIVE.phytoGenicaThree.map((m) => (
-                <div key={m.n} className="bg-primary-900 py-8 px-2 flex items-center gap-6">
-                  <span className="num-xl text-3xl text-white/80 w-12">{m.n}</span>
-                  <div>
-                    <p className="font-medium mb-1">{m.title}</p>
-                    <p className="text-sm opacity-70 leading-relaxed">{m.desc}</p>
+              {SHARED_NARRATIVE.phytoGenicaThree.map((m, i) => {
+                const Icon = PHYTO_ICONS[i];
+                return (
+                  <div key={m.n} className="bg-primary-900 py-8 px-2 flex items-center gap-6">
+                    <span className="text-white/80 shrink-0"><Icon size={40} /></span>
+                    <div className="flex-1">
+                      <p className="num-xl text-2xl text-white/60 mb-1">{m.n}</p>
+                      <p className="font-medium mb-1">{m.title}</p>
+                      <p className="text-sm opacity-70 leading-relaxed">{m.desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -219,25 +255,33 @@ function SK2Style({
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto mb-20">
-            {SHARED_NARRATIVE.fermentationAxes.map((a, i) => (
-              <div key={i} className="text-center">
-                <p className="num-xl text-primary text-3xl mb-5">0{i + 1}</p>
-                <p className="display text-xl mb-2">{a.ko}</p>
-                <p className="text-[10px] tracking-[.2em] uppercase text-mute">{a.en}</p>
-              </div>
-            ))}
+            {SHARED_NARRATIVE.fermentationAxes.map((a, i) => {
+              const Icon = FERM_ICONS[i];
+              return (
+                <div key={i} className="text-center">
+                  <span className="inline-flex text-primary-dark mb-5"><Icon size={52} /></span>
+                  <p className="num-xl text-primary text-2xl mb-3">0{i + 1}</p>
+                  <p className="display text-xl mb-2">{a.ko}</p>
+                  <p className="text-[10px] tracking-[.2em] uppercase text-mute">{a.en}</p>
+                </div>
+              );
+            })}
           </div>
 
           {/* 6 핵심 — 가로 한 줄 */}
           <div className="border-t border-sage-300/40 pt-16 max-w-5xl mx-auto">
             <p className="eyebrow text-primary text-center mb-10">PHYTOGENICA™ 6 CORES</p>
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
-              {SHARED_NARRATIVE.sixCores.map((c, i) => (
-                <div key={i} className="text-center">
-                  <p className="text-xs tracking-[.2em] text-primary mb-2">0{i + 1}</p>
-                  <p className="text-[13px] font-medium leading-snug">{c}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-y-10 gap-x-6">
+              {SHARED_NARRATIVE.sixCores.map((c, i) => {
+                const Icon = CORE_ICONS[i];
+                return (
+                  <div key={i} className="text-center">
+                    <span className="inline-flex text-primary-dark mb-3"><Icon size={32} /></span>
+                    <p className="text-xs tracking-[.2em] text-primary mb-2">0{i + 1}</p>
+                    <p className="text-[13px] font-medium leading-snug">{c}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -341,9 +385,9 @@ function SK2Style({
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-16 border-t border-earth/15">
-            <IngredientGroup tag="핵심 원료" items={rich.point3.coreIngredients} />
-            <IngredientGroup tag="제주산 자연 원료" items={rich.point3.jejuIngredients} sub="청정 제주의 식물성 에너지" />
-            <IngredientGroup tag="한방 원료" items={rich.point3.herbalIngredients} sub="피부 본연의 힘을 키우는 약재" />
+            <IngredientGroup tag="핵심 원료" Icon={IconStar} items={rich.point3.coreIngredients} />
+            <IngredientGroup tag="제주산 자연 원료" Icon={IconLeaf} items={rich.point3.jejuIngredients} sub="청정 제주의 식물성 에너지" />
+            <IngredientGroup tag="한방 원료" Icon={IconHerbs} items={rich.point3.herbalIngredients} sub="피부 본연의 힘을 키우는 약재" />
           </div>
 
           {rich.point3.extraIngredients && (
@@ -365,13 +409,17 @@ function SK2Style({
             <h2 className="display text-[clamp(26px,3.4vw,40px)] leading-[1.25]">민감해도 안심 케어</h2>
             <p className="text-[15px] leading-[2] mt-6">{rich.point4.description}</p>
           </div>
-          <div className={`grid md:grid-cols-${Math.min(rich.point4.badges.length, 4)} gap-x-6 gap-y-10 max-w-5xl mx-auto border-y border-line py-12`}>
-            {rich.point4.badges.map((badge, i) => (
-              <div key={i} className="text-center">
-                <p className="num-xl text-primary text-2xl mb-3">0{i + 1}</p>
-                <p className="text-sm font-medium leading-snug">{badge}</p>
-              </div>
-            ))}
+          <div className={`grid md:grid-cols-${Math.min(rich.point4.badges.length, 4)} gap-x-6 gap-y-12 max-w-5xl mx-auto border-y border-line py-14`}>
+            {rich.point4.badges.map((badge, i) => {
+              const Icon = safetyIconFor(badge);
+              return (
+                <div key={i} className="text-center">
+                  <span className="inline-flex text-primary-dark mb-4"><Icon size={44} /></span>
+                  <p className="num-xl text-primary text-xl mb-2">0{i + 1}</p>
+                  <p className="text-sm font-medium leading-snug">{badge}</p>
+                </div>
+              );
+            })}
           </div>
           {rich.point4.extraNote && (
             <p className="text-center text-sm text-primary mt-8">★ {rich.point4.extraNote}</p>
@@ -454,10 +502,16 @@ function SK2Style({
   );
 }
 
-function IngredientGroup({ tag, items, sub }: { tag: string; items: string[]; sub?: string }) {
+function IngredientGroup({
+  tag, items, sub, Icon,
+}: {
+  tag: string; items: string[]; sub?: string;
+  Icon?: IconCmp;
+}) {
   return (
     <div>
-      <p className="eyebrow text-earth mb-4">{tag}</p>
+      {Icon && <span className="inline-flex text-earth mb-5"><Icon size={36} /></span>}
+      <p className="eyebrow text-earth mb-3">{tag}</p>
       {sub && <p className="text-xs text-earth/70 mb-5 leading-relaxed">{sub}</p>}
       <ul className="space-y-2.5">
         {items.map((it, i) => (
