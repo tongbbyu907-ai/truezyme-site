@@ -2,7 +2,18 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { getNavBrands } from "@/lib/nav";
+import { createClient } from "@/lib/supabase/server";
 import { IconPatent, IconConcentration, IconLeaf, IconMedical } from "@/components/icons";
+
+type HomeProduct = {
+  id: string;
+  slug: string;
+  name_ko: string;
+  short_description: string | null;
+  main_image: string | null;
+  tag: string | null;
+  price: number | null;
+};
 
 export const revalidate = 60;
 
@@ -19,6 +30,13 @@ const KEYWORDS = [
 
 export default async function HomePage() {
   const brands = await getNavBrands();
+  const sb = await createClient();
+  const { data: products } = await sb
+    .from("products")
+    .select("id, slug, name_ko, short_description, main_image, tag, price")
+    .eq("is_published", true)
+    .order("display_order");
+  const featuredProducts = (products ?? []) as HomeProduct[];
 
   return (
     <>
@@ -134,49 +152,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ 브랜드 ============ */}
+      {/* ============ PRODUCT LINEUP ============ */}
       <section className="section bg-sage-50">
         <div className="container-x">
           <div className="flex items-end justify-between mb-16 pb-6 border-b border-sage-200">
             <div>
-              <p className="eyebrow text-primary mb-4">OUR BRANDS</p>
-              <h2 className="display text-[clamp(36px,4.5vw,56px)]">하나의 발효 기술,<br />여러 가지 결.</h2>
+              <p className="eyebrow text-primary mb-4">PRODUCT LINEUP</p>
+              <h2 className="display text-[clamp(36px,4.5vw,56px)]">트루자임 라인업</h2>
             </div>
-            <p className="hidden md:block text-mute text-sm max-w-xs leading-relaxed">
-              피부, 두피, 바디, 스페셜 케어. 각자 다른 결로 피부 자생력을 회복합니다.
-            </p>
+            <Link href="/brands/truezyme" className="hidden md:inline-block text-xs uppercase tracking-[.2em] text-primary hover:text-primary-dark">
+              전체 보기 →
+            </Link>
           </div>
 
-          {brands.length === 0 ? (
+          {featuredProducts.length === 0 ? (
             <p className="text-center py-16 text-mute border border-dashed border-sage-200">
-              아직 등록된 브랜드가 없습니다.
+              아직 등록된 제품이 없습니다.
             </p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-6">
-              {brands.map((b, i) => (
-                <Link key={b.id} href={`/brands/${b.slug}`} className="group relative aspect-[4/5] overflow-hidden block bg-primary-900">
-                  <div
-                    className="absolute inset-0 opacity-60 group-hover:opacity-80 transition duration-700 bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${
-                        i === 0
-                          ? "/photos/shampoo/Gemini_Generated_Image_2pq9on2pq9on2pq9.png"
-                          : "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=900&q=80"
-                      })`,
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/40 to-primary-900/10" />
-                  <div className="absolute inset-x-0 bottom-0 p-10 md:p-14 text-white">
-                    <p className="text-[10px] tracking-[.3em] opacity-80 mb-4">0{i + 1} · {b.name_en}</p>
-                    <h3 className="display text-5xl md:text-6xl mb-5">{b.name_ko}</h3>
-                    <span className="inline-flex items-center gap-3 text-xs tracking-[.2em] uppercase border-b border-white/50 pb-1 group-hover:border-white">
-                      라인 보기 →
-                    </span>
+            <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+              {featuredProducts.map((p) => (
+                <Link key={p.id} href={`/products/${p.id}`} className="group block">
+                  <div className="aspect-square bg-white overflow-hidden mb-6">
+                    {p.main_image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={p.main_image}
+                        alt={p.name_ko}
+                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                      />
+                    )}
                   </div>
+                  {p.tag && <p className="text-[10px] tracking-[.3em] text-primary mb-2 uppercase">{p.tag}</p>}
+                  <h3 className="display text-xl mb-2 leading-tight">{p.name_ko}</h3>
+                  {p.short_description && (
+                    <p className="text-sm text-mute mb-3 line-clamp-2 leading-relaxed">{p.short_description}</p>
+                  )}
+                  {p.price && (
+                    <p className="num-bold text-base text-ink">₩ {p.price.toLocaleString()}</p>
+                  )}
                 </Link>
               ))}
             </div>
           )}
+
+          <div className="mt-16 text-center md:hidden">
+            <Link href="/brands/truezyme" className="btn-outline">전체 보기 →</Link>
+          </div>
         </div>
       </section>
 
