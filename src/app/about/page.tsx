@@ -134,13 +134,13 @@ function Step({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-5 mb-6">
-        <span className="w-14 h-14 rounded-full bg-white text-primary flex items-center justify-center shrink-0">
-          <Icon size={28} />
+      <div className="flex items-start gap-6 mb-7">
+        <span className="text-primary-dark shrink-0">
+          <Icon size={56} />
         </span>
         <div>
-          <p className="num-xl text-primary text-2xl leading-none">{n}</p>
-          <p className="eyebrow text-primary mt-1.5">{tag}</p>
+          <p className="num-xl text-primary-dark text-3xl leading-none">{n}</p>
+          <p className="eyebrow text-primary mt-2">{tag}</p>
         </div>
       </div>
       <h3 className="display text-2xl md:text-3xl leading-tight mb-5 text-[#1F3A35]">{title}</h3>
@@ -158,8 +158,8 @@ function Strength({
 }) {
   return (
     <div className="bg-white p-10 md:p-12">
-      <span className="inline-flex w-12 h-12 mb-7 text-primary">
-        <Icon size={36} />
+      <span className="inline-flex mb-8 text-primary-dark">
+        <Icon size={56} />
       </span>
       <p className="eyebrow text-primary mb-3">{tag}</p>
       <h3 className="display text-2xl mb-4">{title}</h3>
@@ -176,8 +176,8 @@ function Apply({
 }) {
   return (
     <div className="bg-white py-10 px-8 text-center border-t-2 border-primary">
-      <span className="inline-flex text-primary mb-5">
-        <Icon size={40} />
+      <span className="inline-flex text-primary-dark mb-6">
+        <Icon size={56} />
       </span>
       <p className="display text-3xl text-primary mb-2">{title}</p>
       <p className="text-sm text-mute">= {desc}</p>

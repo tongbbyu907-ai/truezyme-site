@@ -9,7 +9,7 @@ const baseProps = (size: number, className?: string) => ({
   viewBox: "0 0 32 32",
   fill: "none",
   stroke: "currentColor",
-  strokeWidth: 1.4,
+  strokeWidth: 1.9,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   className,
