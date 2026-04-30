@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
         <nav className="flex-1 py-6 text-sm">
           <NavLink href="/admin">대시보드</NavLink>
-          <NavLink href="/admin/brands">브랜드</NavLink>
+          <NavLink href="/admin/products">제품 관리</NavLink>
           <NavLink href="/admin/events">이벤트</NavLink>
           <NavLink href="/admin/faqs">Q&A</NavLink>
         </nav>

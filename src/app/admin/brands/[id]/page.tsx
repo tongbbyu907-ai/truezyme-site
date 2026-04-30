@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/server";
-import {
-  updateBrand, createProductType, deleteProductType,
-  createProduct, updateProduct, deleteProduct,
-} from "../actions";
+import { createProduct, updateProduct, deleteProduct } from "../actions";
 import type { Brand, Product, ProductType } from "@/types/database";
 
 export const dynamic = "force-dynamic";
@@ -21,63 +18,15 @@ export default async function BrandEditPage({ params }: { params: Promise<{ id: 
 
   return (
     <div>
-      <Link href="/admin/brands" className="text-sm text-mute hover:text-primary">← 브랜드 목록</Link>
-      <h1 className="font-serif text-3xl mt-2 mb-8">{b.name_ko} <span className="text-mute text-base font-sans">{b.name_en}</span></h1>
+      <Link href="/admin" className="text-sm text-mute hover:text-primary">← 대시보드</Link>
+      <h1 className="font-serif text-3xl mt-2 mb-2">{b.name_ko} 제품 관리</h1>
+      <p className="text-mute text-sm mb-10">등록된 제품 수정 / 새 제품 추가</p>
 
-      {/* 브랜드 정보 수정 */}
-      <details className="bg-white rounded p-6 mb-8" open>
-        <summary className="cursor-pointer font-medium">브랜드 정보 수정</summary>
-        <form action={async (fd) => { "use server"; await updateBrand(id, fd); }} className="grid grid-cols-2 gap-x-6 gap-y-5 mt-6">
-          <F label="슬러그" name="slug" defaultValue={b.slug} required />
-          <F label="순서" name="display_order" type="number" defaultValue={b.display_order} />
-          <F label="국문명" name="name_ko" defaultValue={b.name_ko} required />
-          <F label="영문명" name="name_en" defaultValue={b.name_en ?? ""} />
-          <F label="한 줄 컨셉" name="concept" defaultValue={b.concept ?? ""} wide />
-          <TA label="설명" name="description" defaultValue={b.description ?? ""} />
-          <F label="대표 이미지 URL" name="cover_image" defaultValue={b.cover_image ?? ""} wide />
-          <F label="브랜드 컬러" name="color_primary" type="color" defaultValue={b.color_primary} />
-          <label className="flex items-center gap-2 mt-2">
-            <input type="checkbox" name="is_published" defaultChecked={b.is_published} /> 사이트에 노출
-          </label>
-          <div className="col-span-2 mt-2"><button className="btn-primary">저장</button></div>
-        </form>
-      </details>
-
-      {/* 제품 타입 (특성) */}
-      <section className="bg-white rounded p-6 mb-8">
-        <h2 className="font-medium mb-4">제품 타입 (특성)</h2>
-        <p className="text-sm text-mute mb-5">예: Hair&Scalp, SKIN, Body, 토너, 세럼…</p>
-
-        {types && types.length > 0 ? (
-          <ul className="divide-y divide-line mb-6">
-            {(types as ProductType[]).map((t) => (
-              <li key={t.id} className="py-3 flex items-center gap-4">
-                <span className="text-xs text-mute w-6">{t.display_order}</span>
-                <span className="flex-1">{t.name_ko}{t.name_en && <span className="text-mute ml-2 text-sm">{t.name_en}</span>}</span>
-                <code className="text-xs text-mute">{t.slug}</code>
-                <form action={async () => { "use server"; await deleteProductType(t.id, id); }}>
-                  <button className="text-xs text-red-600 hover:underline">삭제</button>
-                </form>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm text-mute mb-6">등록된 타입 없음</p>
-        )}
-
-        <form action={async (fd) => { "use server"; await createProductType(id, fd); }} className="grid grid-cols-4 gap-3">
-          <input name="slug" placeholder="slug (skin)" required className="border border-line px-3 py-2 text-sm" />
-          <input name="name_ko" placeholder="국문 (스킨)" required className="border border-line px-3 py-2 text-sm" />
-          <input name="name_en" placeholder="영문 (SKIN)" className="border border-line px-3 py-2 text-sm" />
-          <button className="btn-dark text-sm">타입 추가</button>
-        </form>
-      </section>
-
-      {/* 제품 목록 */}
+      {/* 제품 목록 — 최상단으로 이동 */}
       <section className="bg-white rounded p-6 mb-8">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-medium">제품</h2>
-          <span className="text-xs text-mute">{products?.length ?? 0}개</span>
+          <h2 className="font-medium text-lg">제품 ({products?.length ?? 0}개)</h2>
+          <span className="text-xs text-mute">아래 ＋ 새 제품 추가에서 등록</span>
         </div>
 
         {products && products.length > 0 && (
