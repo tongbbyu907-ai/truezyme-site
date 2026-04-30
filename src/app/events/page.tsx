@@ -14,7 +14,7 @@ export default async function EventsPage() {
     <>
       <Header brands={navBrands} />
 
-      <main className="pt-[76px]">
+      <main>
         <section className="py-24 bg-sage-100">
           <div className="container-x text-center">
             <p className="eyebrow text-primary mb-5">EVENTS</p>

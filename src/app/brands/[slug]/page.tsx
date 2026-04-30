@@ -36,7 +36,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
 
   return (
     <>
-      <Header brands={navBrands} />
+      <Header brands={navBrands} overlay />
 
       {/* HERO */}
       <section

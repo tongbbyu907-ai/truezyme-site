@@ -40,7 +40,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Header brands={brands} />
+      <Header brands={brands} overlay />
 
       {/* ============ HERO — 좌(텍스트) / 우(사진) 분리 + 강한 다크 그라디언트 ============ */}
       <section className="relative h-screen min-h-[680px] overflow-hidden bg-primary-900 text-white">

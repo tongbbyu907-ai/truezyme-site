@@ -13,7 +13,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <Header brands={brands} />
+      <Header brands={brands} overlay />
 
       {/* HERO */}
       <section className="relative h-[80vh] min-h-[560px] flex items-end text-white overflow-hidden">

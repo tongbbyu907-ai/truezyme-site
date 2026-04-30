@@ -4,18 +4,23 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { NavBrand } from "@/lib/nav";
 
-export default function Header({ brands }: { brands: NavBrand[] }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);                 // 모바일 메뉴
-  const [openBrand, setOpenBrand] = useState<string | null>(null); // 데스크톱 드롭다운
+export default function Header({
+  brands,
+  overlay = false,
+}: { brands: NavBrand[]; overlay?: boolean }) {
+  // overlay=false면 항상 솔리드 화이트 헤더, true면 다크 히어로 위에 떠있다가 스크롤 시 솔리드로 전환
+  const [scrolled, setScrolled] = useState(!overlay);
+  const [open, setOpen] = useState(false);
+  const [openBrand, setOpenBrand] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!overlay) return; // 솔리드 모드에선 스크롤 감지 불필요
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [overlay]);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
