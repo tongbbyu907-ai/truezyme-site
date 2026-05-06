@@ -173,7 +173,7 @@ export default async function HomePage() {
           ) : (
             <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
               {featuredProducts.map((p) => (
-                <div key={p.id} className="group flex flex-col">
+                <div key={p.id} className="group">
                   <Link href={`/products/${p.id}`} className="block">
                     <div className="aspect-square bg-white overflow-hidden mb-6">
                       {p.main_image && (
@@ -190,37 +190,31 @@ export default async function HomePage() {
                     {p.short_description && (
                       <p className="text-sm text-mute mb-3 line-clamp-2 leading-relaxed">{p.short_description}</p>
                     )}
-                    {p.price && (
-                      <p className="num-bold text-base text-ink">₩ {p.price.toLocaleString()}</p>
-                    )}
                   </Link>
 
-                  {/* 구매 / 자세히 CTA */}
-                  <div className="mt-5 flex gap-2 pt-5 border-t border-sage-200">
+                  {/* 가격 + 구매 버튼 한 줄 */}
+                  <div className="flex items-center justify-between gap-3 mt-3">
+                    <p className="num-bold text-base text-ink">
+                      {p.price ? `₩ ${p.price.toLocaleString()}` : ""}
+                    </p>
                     {p.external_url ? (
                       <a
                         href={p.external_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-primary flex-1 justify-center !py-3 !px-4 !text-[11px]"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium uppercase tracking-[.15em] bg-primary text-white hover:bg-primary-dark transition rounded-full"
                       >
-                        구매하기 ↗
+                        구매 ↗
                       </a>
                     ) : (
                       <button
                         disabled
                         title="구매 링크 등록 예정"
-                        className="btn-primary flex-1 justify-center !py-3 !px-4 !text-[11px] opacity-60 cursor-not-allowed"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium uppercase tracking-[.15em] bg-primary/40 text-white rounded-full cursor-not-allowed"
                       >
-                        구매하기
+                        구매
                       </button>
                     )}
-                    <Link
-                      href={`/products/${p.id}`}
-                      className="btn-outline flex-1 justify-center !py-3 !px-4 !text-[11px]"
-                    >
-                      자세히 →
-                    </Link>
                   </div>
                 </div>
               ))}
