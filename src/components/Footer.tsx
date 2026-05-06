@@ -36,7 +36,11 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <p className="text-center text-xs opacity-50 pt-7">© {new Date().getFullYear()} Truezyme. All rights reserved.</p>
+        <p className="text-center text-xs opacity-50 pt-7">
+          © {new Date().getFullYear()} Truezyme.{" "}
+          <Link href="/admin/login" className="text-inherit no-underline hover:no-underline" aria-label="Admin">All</Link>{" "}
+          rights reserved.
+        </p>
       </div>
     </footer>
   );
