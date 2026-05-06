@@ -126,6 +126,15 @@ export async function updateProduct(id: string, brandId: string, formData: FormD
   await requireAdmin();
   const sb = createAdminClient();
   const priceStr = String(formData.get("price") || "").replace(/[^\d]/g, "");
+
+  let detailPart: { detail_data?: unknown } = {};
+  try {
+    detailPart = parseDetailData(formData.get("detail_data"));
+  } catch (e) {
+    console.error("[updateProduct] detail_data parse error:", e);
+    throw e;
+  }
+
   const payload = {
     product_type_id: String(formData.get("product_type_id") || "") || null,
     slug: String(formData.get("slug") || "").trim(),
@@ -142,10 +151,14 @@ export async function updateProduct(id: string, brandId: string, formData: FormD
     external_url: String(formData.get("external_url") || "").trim() || null,
     is_published: formData.get("is_published") === "on",
     display_order: Number(formData.get("display_order") || 0),
-    ...parseDetailData(formData.get("detail_data")),
+    ...detailPart,
   };
+
   const { error } = await sb.from("products").update(payload).eq("id", id);
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("[updateProduct] Supabase error:", { id, brandId, error });
+    throw new Error(`제품 저장 실패: ${error.message}${error.details ? " · " + error.details : ""}${error.hint ? " · " + error.hint : ""}`);
+  }
   revalidatePath(`/admin/brands/${brandId}`);
 }
 
