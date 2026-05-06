@@ -57,7 +57,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ id: 
   const otherTruezyme = ALL_TRUEZYME_PRODUCTS.filter(x => x.slug !== p.slug);
   const { data: otherProducts } = await sb
     .from("products")
-    .select("id, slug, name_ko, main_image, tag, price")
+    .select("id, slug, name_ko, main_image, tag, price, external_url")
     .in("slug", otherTruezyme.map(x => x.slug))
     .eq("is_published", true);
 
@@ -73,7 +73,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ id: 
   );
 }
 
-type RelatedProduct = { id: string; slug: string; name_ko: string; main_image: string | null; tag: string | null; price: number | null };
+type RelatedProduct = { id: string; slug: string; name_ko: string; main_image: string | null; tag: string | null; price: number | null; external_url: string | null };
 
 // ============================================================
 // SK-II KOREA INSPIRED PRODUCT TEMPLATE
@@ -477,17 +477,39 @@ function SK2Style({
             </div>
             <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
               {otherProducts.map((op) => (
-                <Link key={op.id} href={`/products/${op.id}`} className="group block">
-                  <div className="aspect-square bg-sage-50 overflow-hidden mb-5">
-                    {op.main_image && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={op.main_image} alt={op.name_ko} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                <div key={op.id} className="group">
+                  <Link href={`/products/${op.id}`} className="block">
+                    <div className="aspect-square bg-sage-50 overflow-hidden mb-5">
+                      {op.main_image && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={op.main_image} alt={op.name_ko} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                      )}
+                    </div>
+                    {op.tag && <p className="text-[10px] tracking-[.3em] text-primary mb-2 uppercase">{op.tag}</p>}
+                    <h3 className="display text-base mb-1 leading-tight">{op.name_ko}</h3>
+                  </Link>
+                  <div className="flex items-center justify-between gap-3 mt-2">
+                    <p className="text-sm text-mute">{op.price ? `₩${op.price.toLocaleString()}` : ""}</p>
+                    {op.external_url ? (
+                      <a
+                        href={op.external_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium uppercase tracking-[.15em] bg-primary text-white hover:bg-primary-dark transition rounded-full"
+                      >
+                        구매 ↗
+                      </a>
+                    ) : (
+                      <button
+                        disabled
+                        title="구매 링크 등록 예정"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium uppercase tracking-[.15em] bg-primary/40 text-white rounded-full cursor-not-allowed"
+                      >
+                        구매
+                      </button>
                     )}
                   </div>
-                  {op.tag && <p className="text-[10px] tracking-[.3em] text-primary mb-2 uppercase">{op.tag}</p>}
-                  <h3 className="display text-base mb-1 leading-tight">{op.name_ko}</h3>
-                  {op.price && <p className="text-sm text-mute">₩{op.price.toLocaleString()}</p>}
-                </Link>
+                </div>
               ))}
             </div>
           </div>
