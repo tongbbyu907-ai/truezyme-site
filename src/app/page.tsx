@@ -13,6 +13,7 @@ type HomeProduct = {
   main_image: string | null;
   tag: string | null;
   price: number | null;
+  external_url: string | null;
 };
 
 export const revalidate = 60;
@@ -33,7 +34,7 @@ export default async function HomePage() {
   const sb = await createClient();
   const { data: products } = await sb
     .from("products")
-    .select("id, slug, name_ko, short_description, main_image, tag, price")
+    .select("id, slug, name_ko, short_description, main_image, tag, price, external_url")
     .eq("is_published", true)
     .order("display_order");
   const featuredProducts = (products ?? []) as HomeProduct[];
@@ -172,26 +173,56 @@ export default async function HomePage() {
           ) : (
             <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
               {featuredProducts.map((p) => (
-                <Link key={p.id} href={`/products/${p.id}`} className="group block">
-                  <div className="aspect-square bg-white overflow-hidden mb-6">
-                    {p.main_image && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={p.main_image}
-                        alt={p.name_ko}
-                        className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
-                      />
+                <div key={p.id} className="group flex flex-col">
+                  <Link href={`/products/${p.id}`} className="block">
+                    <div className="aspect-square bg-white overflow-hidden mb-6">
+                      {p.main_image && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={p.main_image}
+                          alt={p.name_ko}
+                          className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                        />
+                      )}
+                    </div>
+                    {p.tag && <p className="text-[10px] tracking-[.3em] text-primary mb-2 uppercase">{p.tag}</p>}
+                    <h3 className="display text-xl mb-2 leading-tight">{p.name_ko}</h3>
+                    {p.short_description && (
+                      <p className="text-sm text-mute mb-3 line-clamp-2 leading-relaxed">{p.short_description}</p>
                     )}
+                    {p.price && (
+                      <p className="num-bold text-base text-ink">₩ {p.price.toLocaleString()}</p>
+                    )}
+                  </Link>
+
+                  {/* 구매 / 자세히 CTA */}
+                  <div className="mt-5 flex gap-2 pt-5 border-t border-sage-200">
+                    {p.external_url ? (
+                      <a
+                        href={p.external_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary flex-1 justify-center !py-3 !px-4 !text-[11px]"
+                      >
+                        구매하기 ↗
+                      </a>
+                    ) : (
+                      <button
+                        disabled
+                        title="구매 링크 등록 예정"
+                        className="btn-primary flex-1 justify-center !py-3 !px-4 !text-[11px] opacity-60 cursor-not-allowed"
+                      >
+                        구매하기
+                      </button>
+                    )}
+                    <Link
+                      href={`/products/${p.id}`}
+                      className="btn-outline flex-1 justify-center !py-3 !px-4 !text-[11px]"
+                    >
+                      자세히 →
+                    </Link>
                   </div>
-                  {p.tag && <p className="text-[10px] tracking-[.3em] text-primary mb-2 uppercase">{p.tag}</p>}
-                  <h3 className="display text-xl mb-2 leading-tight">{p.name_ko}</h3>
-                  {p.short_description && (
-                    <p className="text-sm text-mute mb-3 line-clamp-2 leading-relaxed">{p.short_description}</p>
-                  )}
-                  {p.price && (
-                    <p className="num-bold text-base text-ink">₩ {p.price.toLocaleString()}</p>
-                  )}
-                </Link>
+                </div>
               ))}
             </div>
           )}
