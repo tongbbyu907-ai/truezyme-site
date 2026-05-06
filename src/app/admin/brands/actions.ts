@@ -99,6 +99,7 @@ export async function createProduct(brandId: string, formData: FormData) {
   await requireAdmin();
   const sb = createAdminClient();
   const priceStr = String(formData.get("price") || "").replace(/[^\d]/g, "");
+  const detailPart = parseDetailData(formData.get("detail_data"));
   const payload = {
     brand_id: brandId,
     product_type_id: String(formData.get("product_type_id") || "") || null,
@@ -116,10 +117,15 @@ export async function createProduct(brandId: string, formData: FormData) {
     external_url: String(formData.get("external_url") || "").trim() || null,
     is_published: formData.get("is_published") === "on",
     display_order: Number(formData.get("display_order") || 0),
+    ...detailPart,
   };
   const { error } = await sb.from("products").insert(payload);
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("[createProduct] Supabase error:", error);
+    throw new Error(`제품 추가 실패: ${error.message}`);
+  }
   revalidatePath(`/admin/brands/${brandId}`);
+  redirect(`/admin/brands/${brandId}?saved=product_new`);
 }
 
 export async function updateProduct(id: string, brandId: string, formData: FormData) {
@@ -160,6 +166,7 @@ export async function updateProduct(id: string, brandId: string, formData: FormD
     throw new Error(`제품 저장 실패: ${error.message}${error.details ? " · " + error.details : ""}${error.hint ? " · " + error.hint : ""}`);
   }
   revalidatePath(`/admin/brands/${brandId}`);
+  redirect(`/admin/brands/${brandId}?saved=product`);
 }
 
 export async function deleteProduct(id: string, brandId: string) {
@@ -168,4 +175,5 @@ export async function deleteProduct(id: string, brandId: string) {
   const { error } = await sb.from("products").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath(`/admin/brands/${brandId}`);
+  redirect(`/admin/brands/${brandId}?saved=product_deleted`);
 }

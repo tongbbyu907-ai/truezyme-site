@@ -3,12 +3,20 @@ import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/server";
 import { createProduct, updateProduct, deleteProduct } from "../actions";
 import DetailDataForm from "@/components/admin/DetailDataForm";
+import SaveToast from "../../_components/SaveToast";
 import type { Brand, Product, ProductType } from "@/types/database";
 
 export const dynamic = "force-dynamic";
 
-export default async function BrandEditPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function BrandEditPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ saved?: string }>;
+}) {
   const { id } = await params;
+  const sp = await searchParams;
   const sb = createAdminClient();
   const { data: brand } = await sb.from("brands").select("*").eq("id", id).single();
   if (!brand) notFound();
@@ -19,6 +27,7 @@ export default async function BrandEditPage({ params }: { params: Promise<{ id: 
 
   return (
     <div>
+      <SaveToast kind={sp.saved} />
       <Link href="/admin" className="text-sm text-mute hover:text-primary">← 대시보드</Link>
       <h1 className="font-serif text-3xl mt-2 mb-2">{b.name_ko} 제품 관리</h1>
       <p className="text-mute text-sm mb-10">등록된 제품 수정 / 새 제품 추가</p>
